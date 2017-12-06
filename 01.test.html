@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+<canvas width="600" height="400" id="canvas"></canvas>
+</body>
+</html>
+<script>
+    var canvas = document.getElementById("canvas");
+    var context = canvas.getContext("2d");
+
+    //1. 加载所有的图片
+    var sun = new Image();
+    var earth = new Image();
+    sun.src = "./img/Canvas_sun.png";
+    earth.src = "./img/Canvas_earth.png";
+
+    var imgArr = [sun, earth];
+    var count = 0;
+
+    imgArr.forEach(function (img) {
+        img.onload = function () {
+            count += 1;
+            if (count == imgArr.length) {
+                //说明所有的图片都加载成功了， 以下才开始执行画图的操作
+                
+                function draw() {
+                    //记住context的原始状
+                    context.save();
+
+                    //1. 清空画布
+                    context.clearRect(0, 0, canvas.width, canvas.height);
+
+                    //2. 画太阳
+                    context.drawImage(sun, 0, 0, sun.width, sun.height);
+
+                    //3. 画地球
+                    context.translate(sun.width/2, sun.height/2);
+                    context.rotate(-0.5*Math.PI);
+
+                    //假设地球绕太阳一圈是一分钟
+                    //拿到当前的秒数
+                    var date = new Date();
+                    var seconds = date.getSeconds();
+                    var millSeconds = date.getMilliseconds();
+                    //精确到毫秒 几点几几秒
+                    seconds = seconds + millSeconds / 1000;
+                    //算出地球所在有弧度
+                    var radian = seconds / 60 * 2*Math.PI;
+                    //旋转坐标系
+                    context.rotate(radian);
+                    context.drawImage(earth, 100, -earth.height/2);
+
+                    //还原坐标系
+//                    context.rotate(-radian);
+//                    context.translate(-150, -150);
+                    context.restore();
+
+                    window.requestAnimationFrame(draw);
+                }
+
+                draw();
+
+//                setInterval(draw, 16.7);
+            }
+        }
+    })
+</script>
+

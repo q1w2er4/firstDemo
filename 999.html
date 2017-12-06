@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+<canvas width="600" height="400" id="canvas"></canvas>
+</body>
+</html>
+<script>
+    var canvas = document.getElementById("canvas");
+    var context = canvas.getContext("2d");
+
+    //开始时间
+    var startTime = new Date(); //54
+
+    //假设进度条是10秒钟转一圈
+    function draw() {
+        var now = new Date();
+        //从开始执行时， 到现在过了几秒
+        var deltaTime = now - startTime;
+        var radian = deltaTime / (10 * 1000) * 2*Math.PI;
+
+        if (radian > 2.1 * Math.PI) return;
+
+        context.beginPath();
+        context.arc(300, 200, 150, 0, radian);
+        context.lineTo(300, 200);
+        context.closePath();
+        context.fillStyle = "orange";
+        context.fill();
+
+        //连续动画
+        window.requestAnimationFrame(draw);
+    }
+
+    //启动绘制
+    draw();
+
+</script>

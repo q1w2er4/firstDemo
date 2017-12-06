@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        ul {
+            list-style: none;
+            padding: 0;
+            width: 420px;
+        }
+
+        ul li {
+            float: left;
+            padding: 0;
+            margin: 0;
+            margin-left: -1px;
+            margin-bottom: -1px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid #000;
+            text-align: center;
+            line-height: 60px;
+            /* 保证li永远是60*60的宽高 */
+            box-sizing: border-box;
+            /* 发生一个缓慢变化的动画的效果 */
+            transition: all 0.5s;
+        }
+
+        ul li:nth-child(7n-1) {
+            background-color: hotpink;
+        }
+
+        ul li:nth-child(7n) {
+            background-color: teal;
+        }
+
+        ul li:nth-child(12) {
+            background-color: red;
+        }
+
+        ul li:hover {
+            box-shadow: 0px 0px 20px 0px green inset;
+        }
+    </style>
+</head>
+<body>
+    <h1>我是邵爽</h1>
+    <div>
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+            <li>10</li>
+            <li>11</li>
+            <li>12</li>
+            <li>13</li>
+            <li>14</li>
+            <li>15</li>
+            <li>16</li>
+            <li>17</li>
+            <li>18</li>
+            <li>19</li>
+            <li>20</li>
+            <li>21</li>
+            <li>22</li>
+            <li>23</li>
+            <li>24</li>
+            <li>25</li>
+            <li>26</li>
+            <li>27</li>
+            <li>28</li>
+            <li>29</li>
+            <li>30</li>
+            <li>31</li>
+        </ul>
+
+    </div>
+</body>
+</html>

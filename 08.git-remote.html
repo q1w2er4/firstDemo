@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+<canvas width="600" height="400" id="canvas"></canvas>
+</body>
+</html>
+<script>
+    var canvas = document.getElementById("canvas");
+    var context = canvas.getContext("2d");
+    
+    function draw() {
+        context.save();
+
+        //清空画布
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        //1. 画表盘
+        context.beginPath();
+        context.arc(300, 200, 130, 0, 2*Math.PI);
+        context.strokeStyle = "blue";
+        context.lineWidth = 3;
+        context.stroke();
+
+        //2. 画时针刻度
+        context.translate(300, 200);
+        context.rotate(-0.5*Math.PI);
+
+        context.beginPath();
+        for (var i = 0; i<12; i++) {
+            context.moveTo(115, 0);
+            context.lineTo(125, 0);
+            context.rotate(30/180 * Math.PI);
+        }
+
+        context.lineWidth = 5;
+        context.strokeStyle = "red";
+        context.stroke();
+
+        //3. 画分针的刻度
+        context.beginPath();
+        for (var i = 0; i < 60; i++) {
+            if (i % 5 != 0) {
+                context.moveTo(120, 0);
+                context.lineTo(125, 0);
+            }
+
+            context.rotate(6/180*Math.PI);
+        }
+
+        context.lineWidth = 3;
+        context.strokeStyle = "black";
+        context.stroke();
+
+        //4. 算出指针的旋转角度，
+        var now = new Date();
+        var h = now.getHours();
+        var m = now.getMinutes();
+        var s = now.getSeconds();
+
+        m = m + s / 60; //算出当前是几点几分 3.2， 精确到小数位
+        h = h + m / 60; //精确到几点几小时， 小数位
+
+        var hradian = h / 12 * 2*Math.PI;
+        var mradian = m / 60 * 2*Math.PI;
+        var sradain = s / 60 * 2*Math.PI;
+
+        //5. 画时针
+        context.save();
+
+        context.rotate(hradian);
+        context.beginPath();
+        context.moveTo(-15, 0);
+        context.lineTo(60, 0);
+        context.strokeStyle = "blue";
+        context.lineCap = "round";
+        context.lineWidth = 6;
+        context.stroke();
+
+        context.restore(); //执行完这一句之后 坐标系又回到了最近一次save之时的状态，也就是0点方向
+
+        //6. 画分针
+        context.save();
+        context.rotate(mradian);
+        context.beginPath();
+        context.moveTo(-15, 0);
+        context.lineTo(70, 0);
+        context.lineWidth = 5;
+        context.lineCap = "round";
+        context.strokeStyle = "blue";
+        context.stroke();
+        context.restore();
+
+        //7. 画秒针
+        context.save();
+        context.rotate(sradain);
+        context.beginPath();
+        context.moveTo(-15, 0);
+        context.lineTo(85, 0);
+        context.lineWidth = 3;
+        context.lineCap = "round";
+        context.strokeStyle = "red";
+        context.stroke();
+        context.restore();
+
+        //8. 画表心
+        context.beginPath();
+        context.arc(0, 0, 5, 0, 2*Math.PI);
+        context.fillStyle = "red";
+        context.fill();
+
+        context.restore();
+    }
+
+    setInterval(draw, 1000);
+
+</script>
+
+
+<!--
+    手表的动作分解：
+    1. 画表盘
+    2. 画时针的刻度
+    3. 画分针的刻度
+    4. 画时针
+    5. 分针
+    6. 秒针
+    7. 画表心
+    8. 测试
+-->
